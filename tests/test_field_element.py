@@ -1,6 +1,6 @@
 import pytest
 
-from field_element import FieldElement
+from src.field_element import FieldElement
 
 
 def test_numbers_are_represented_modulo_prime():

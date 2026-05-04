@@ -58,3 +58,7 @@ def test_zero_division_and_invalid_prime_raise_error():
 
     with pytest.raises(ValueError):
         FieldElement(1, 12)
+
+def test_additive_identity():
+    a = FieldElement(7, 13)
+    assert a + FieldElement(0, 13) == a

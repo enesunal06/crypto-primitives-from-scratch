@@ -3,16 +3,16 @@
 # nonzero element has a multiplicative inverse, making division always possible.
 
 class FieldElement:
- """
- An element of the finite field F_p.
+    """
+    An element of the finite field F_p.
 
-A field is a ring with unity, commutative multiplication, and multiplicative
-inverses for all nonzero elements. Using a prime modulus p ensures these
-properties hold: by Fermat's Little Theorem, a^(p-1) ≡ 1 (mod p) for all
-nonzero a, so a^(p-2) is always the multiplicative inverse of a.
+    A field is a ring with unity, commutative multiplication, and multiplicative
+    inverses for all nonzero elements. Using a prime modulus p ensures these
+    properties hold: by Fermat's Little Theorem, a^(p-1) ≡ 1 (mod p) for all
+    nonzero a, so a^(p-2) is always the multiplicative inverse of a.
 
-The field F_p contains the integers {0, 1, ..., p-1}, with all arithmetic performed modulo p.
-"""
+    The field F_p contains the integers {0, 1, ..., p-1}, with all arithmetic performed modulo p.
+    """
 
     def __init__(self, number, prime):
         if not isinstance(prime, int):

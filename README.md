@@ -14,7 +14,7 @@ blockchain development.
 ## Stages
 
 - [x] Stage 1: Finite Fields
-- [ ] Stage 2: Elliptic Curves over Finite Fields
+- [x] Stage 2: Elliptic Curves over Finite Fields
 - [ ] Stage 3: ECDSA (Signing & Verification)
 - [ ] Stage 4: Merkle Trees
 - [ ] Stage 5: Ethereum-compatible Wallet

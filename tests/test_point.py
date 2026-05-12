@@ -109,3 +109,12 @@ def test_adding_non_point_raises_type_error():
         p + 5
     with pytest.raises(TypeError):
         p + "point"
+
+# ---------------------------------------------------------------------------
+# Scalar Multiplication 
+# ---------------------------------------------------------------------------
+
+def test_scalar_multiplication():
+    p = Point(-1, 1, 5, 7)
+
+    assert 2 * p == Point(18, -77, 5, 7)

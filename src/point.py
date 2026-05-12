@@ -116,6 +116,22 @@ class Point:
             return Point(x, y, self.a, self.b)
 
 
+    def __rmul__(self, coefficient):
+        coef = coefficient
+        current = self
+        result = Point(None, None, self.a, self.b)
+
+        while coef:
+            if coef & 1:
+                result += current
+
+            coef >>= 1
+
+            if coef:
+                current += current
+
+        return result
+
 if __name__ == "__main__":
     # --- Basic addition ---
     # Curve: y^2 = x^3 + 5x + 7
@@ -137,3 +153,7 @@ if __name__ == "__main__":
     inf = Point(None, None, 5, 7)
     print("p1 + O =", p1 + inf)   # should equal p1
     print("O + p1 =", inf + p1)   # should equal p1
+    p = Point(-1, 1, 5, 7)
+    
+    print("p =", p)
+    print("2 * p =", 2 * p)

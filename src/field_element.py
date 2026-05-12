@@ -62,6 +62,9 @@ class FieldElement:
         number = (self.number * other.number) % self.prime
         return FieldElement(number, self.prime)
 
+    def __rmul__(self, coefficient):
+        return self * self.__class__(coefficient, self.prime)
+    
     def __neg__(self):
         # Additive inverse: -a is the unique element such that a + (-a) = 0
         # In F_p, the additive inverse of a is (p - a) mod p.

@@ -6,10 +6,9 @@ libraries, pure mathematics.
 
 ## Motivation
 
-As a mathematics student specializing in algebra and 
-cryptology, this project bridges my theoretical knowledge 
-of group theory and finite fields with practical 
-blockchain development.
+This project bridges theoretical mathematics — especially 
+group theory and finite fields — with practical blockchain 
+cryptography.
 
 ## Stages
 

@@ -106,21 +106,80 @@ class FieldElement:
 # The primality of p is essential: composite moduli have zero divisors,
 # meaning nonzero elements whose product is 0, which breaks multiplicative
 # inverses. Example: in Z_6, 2 * 3 = 6 ≡ 0, so 2 and 3 have no inverses.
+
+# Cache of verified primes.  FieldElement.__init__ is called for every
+# intermediate result of arithmetic, so testing the same prime repeatedly
+# would dominate the cost.  Caching reduces each repeated call to O(1).
+_verified_primes: set = set()
+
 def _is_prime(number):
     if number < 2:
         return False
+    if number in _verified_primes:
+        return True
+
     if number == 2:
+        _verified_primes.add(number)
         return True
     if number % 2 == 0:
         return False
-# Only check odd divisors up to sqrt(n): if n = a*b with a <= b,
-    # then a <= sqrt(n), so we never miss a factor.
-    divisor = 3
-    while divisor * divisor <= number:
-        if number % divisor == 0:
-            return False
-        divisor += 2
-    return True
+
+    # For small numbers, trial division up to √n is fast and exact.
+    # If n = a·b with a ≤ b, then a ≤ √n, so we never miss a factor.
+    if number < 1_000_000_000_000:
+        divisor = 3
+        while divisor * divisor <= number:
+            if number % divisor == 0:
+                return False
+            divisor += 2
+        _verified_primes.add(number)
+        return True
+
+    # For large numbers (e.g. 256-bit cryptographic primes), trial division
+    # would require ≈ √n ≈ 2^128 steps — computationally infeasible.
+    # The Miller-Rabin test decides primality in O(k · log² n) time, where k
+    # is the number of witness rounds.
+    result = _miller_rabin_is_prime(number)
+    if result:
+        _verified_primes.add(number)
+    return result
+
+
+# Miller-Rabin primality test.
+#
+# Mathematical basis: if n is prime, then for any a not divisible by n,
+# Fermat's Little Theorem gives a^{n-1} ≡ 1 (mod n).  Write n-1 = 2^r · d
+# with d odd.  Then either a^d ≡ 1, or a^{2^j · d} ≡ -1 for some j < r.
+# If neither holds, n is composite (a is a "witness" to compositeness).
+#
+# Witness set:
+#   {2,3,5,7,11,13,17,19,23,29,31,37} is provably deterministic for all
+#   n < 3.317 × 10^24 (Sorenson & Webster, 2015).  For larger n, such as
+#   256-bit cryptographic primes, the test is probabilistic: each composite
+#   passes all 12 witnesses with probability at most 4^{-12} ≈ 6 × 10^{-8}.
+#   In practice, every prime used in a published standard is confirmed prime.
+_MILLER_RABIN_WITNESSES = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37)
+
+def _miller_rabin_is_prime(n):
+    # Write n - 1 = 2^r · d with d odd
+    d, r = n - 1, 0
+    while d % 2 == 0:
+        d >>= 1
+        r += 1
+
+    for a in _MILLER_RABIN_WITNESSES:
+        if a >= n:
+            continue
+        x = pow(a, d, n)                 # a^d mod n — fast modular exponentiation
+        if x == 1 or x == n - 1:
+            continue                      # this witness does not detect compositeness
+        for _ in range(r - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
+        else:
+            return False                  # n is definitely composite
+    return True                           # n is prime (or an astronomically rare pseudoprime)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ cryptography.
 
 - [x] Stage 1: Finite Fields
 - [x] Stage 2: Elliptic Curves over Finite Fields
-- [ ] Stage 3: ECDSA (Signing & Verification)
+- [x] Stage 3: ECDSA (Signing & Verification)
 - [ ] Stage 4: Merkle Trees
 - [ ] Stage 5: Ethereum-compatible Wallet
 ## Principles

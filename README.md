@@ -23,7 +23,10 @@ src/
 ├── point.py           # Elliptic curve points, group law, scalar multiplication
 ├── ecc.py             # Elliptic curve abstraction and public key generation
 ├── ecdsa.py           # secp256k1 parameters, ECDSA signing and verification (RFC 6979)
-└── merkle.py          # Bitcoin-style Merkle tree construction and proof verification
+├── merkle.py          # Bitcoin-style Merkle tree construction and proof verification
+├── keccak.py          # Keccak-256 (Ethereum's hash) from scratch via the sponge construction
+├── rlp.py             # Recursive Length Prefix encoding for Ethereum serialization
+└── wallet.py          # Ethereum address derivation, EIP-55 checksums, EIP-155 tx signing
 tests/
 └── ...                # Unit tests for each primitive
 ```
@@ -44,8 +47,13 @@ tests/
 - [x] **Stage 4 — Merkle Trees** (`merkle.py`) 
   Bitcoin-style Merkle tree construction and inclusion proof verification.
 
-- [ ] **Stage 5 — Ethereum-compatible Wallet** *(planned)*
-  Address derivation, RLP encoding, transaction signing.
+- [x] **Stage 5 — Ethereum-compatible Wallet** (`keccak.py`, `rlp.py`, `wallet.py`)
+  Keccak-256 implemented from scratch via the sponge construction (the original
+  Keccak padding, distinct from NIST SHA3-256). Minimal RLP serialization.
+  Public-key → address derivation, EIP-55 checksum encoding, and legacy
+  transaction signing with EIP-155 replay protection, reusing the existing
+  secp256k1 ECDSA implementation. Verified against the canonical EIP-155 example
+  transaction. *(Educational only — no networking, mnemonics, HD keys, or EIP-1559.)*
 
 ## Principles
 

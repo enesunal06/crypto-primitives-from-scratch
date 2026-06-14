@@ -53,7 +53,7 @@ tests/
   Public-key → address derivation, EIP-55 checksum encoding, and legacy
   transaction signing with EIP-155 replay protection, reusing the existing
   secp256k1 ECDSA implementation. Verified against the canonical EIP-155 example
-  transaction. *(Educational only — no networking, mnemonics, HD keys, or EIP-1559.)*
+  transaction. *(Educational only. No networking, mnemonics, HD keys, or EIP-1559.)*
 
 ## Principles
 
